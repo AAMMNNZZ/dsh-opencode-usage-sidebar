@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OpenCode Subscription Usage",
+    "description": "Shows the OpenCode Go plan's 5-hour, weekly, and monthly usage as three rows at the foot of the sidebar, with a live countdown to the 5-hour reset shown beside its percentage."
+  }
+}

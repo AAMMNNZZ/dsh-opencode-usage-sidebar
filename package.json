@@ -1,0 +1,49 @@
+{
+  "name": "dsh-opencode-usage-sidebar",
+  "version": "0.4.0",
+  "type": "module",
+  "description": "OpenCode subscription usage (5-hour, weekly, monthly) in the DSH sidebar footer, with a live countdown to the 5-hour reset.",
+  "license": "MIT",
+  "author": "AMNZ",
+  "homepage": "https://github.com/YOUR_GITHUB_NAME/dsh-opencode-usage-sidebar#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR_GITHUB_NAME/dsh-opencode-usage-sidebar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YOUR_GITHUB_NAME/dsh-opencode-usage-sidebar/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "opencode",
+    "usage",
+    "sidebar"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
+    }
+  }
+}

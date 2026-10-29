@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OpenCode 订阅用量",
+    "description": "在左侧边栏底部以三行显示 OpenCode Go 订阅的 5 小时、本周与本月用量，并在 5 小时用量右侧显示距刷新的剩余时间。"
+  }
+}

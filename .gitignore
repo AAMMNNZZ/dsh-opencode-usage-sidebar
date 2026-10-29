@@ -1,0 +1,17 @@
+# Dependencies and build output
+node_modules/
+dist/
+
+# Local scratch: probe scripts, old tarballs, profile backups
+.tmp/
+*.tgz
+
+# Never commit credentials or local environment files
+.credentials.yaml
+.env
+.env.*
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log
