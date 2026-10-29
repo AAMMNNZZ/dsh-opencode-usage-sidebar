@@ -15,3 +15,6 @@ dist/
 .DS_Store
 Thumbs.db
 *.log
+
+# pnpm store created when installing the repo locally
+.pnpm-store/
