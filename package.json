@@ -1,17 +1,17 @@
 {
   "name": "dsh-opencode-usage-sidebar",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "type": "module",
   "description": "OpenCode subscription usage (5-hour, weekly, monthly) in the DSH sidebar footer, with a live countdown to the 5-hour reset.",
   "license": "MIT",
   "author": "AMNZ",
-  "homepage": "https://github.com/YOUR_GITHUB_NAME/dsh-opencode-usage-sidebar#readme",
+  "homepage": "https://github.com/AAMMNNZZ/dsh-opencode-usage-sidebar#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YOUR_GITHUB_NAME/dsh-opencode-usage-sidebar.git"
+    "url": "git+https://github.com/AAMMNNZZ/dsh-opencode-usage-sidebar.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_GITHUB_NAME/dsh-opencode-usage-sidebar/issues"
+    "url": "https://github.com/AAMMNNZZ/dsh-opencode-usage-sidebar/issues"
   },
   "keywords": [
     "dsh",

@@ -14,7 +14,7 @@ An OpenCode Go subscription usage card in the [DeepSeek Harness](https://github.
 
 ```sh
 # from this repository
-dsh plugin --profile desktop add git+https://github.com/YOUR_GITHUB_NAME/dsh-opencode-usage-sidebar.git
+dsh plugin --profile desktop add git+https://github.com/AAMMNNZZ/dsh-opencode-usage-sidebar.git
 
 # or from a prebuilt tarball
 dsh plugin --profile desktop add file:/path/to/dsh-opencode-usage-sidebar.tgz
