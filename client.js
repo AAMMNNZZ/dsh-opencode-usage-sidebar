@@ -31,7 +31,8 @@ window.__ModuleLoader__.load({
         'usage.refresh': '刷新用量',
         'usage.reset': '重置',
         'usage.unavailable': '用量暂不可用',
-        'usage.refreshIn': '距刷新',
+        'usage.countdownPrefix': '距月度刷新',
+        'usage.dayUnit': '天',
         'usage.hourUnit': '小时',
         'usage.hourShort': '时',
         'usage.minuteUnit': '分',
@@ -46,7 +47,8 @@ window.__ModuleLoader__.load({
         'usage.refresh': 'Refresh usage',
         'usage.reset': 'Resets',
         'usage.unavailable': 'Usage unavailable',
-        'usage.refreshIn': 'Refresh in',
+        'usage.countdownPrefix': 'Month resets in',
+        'usage.dayUnit': 'd',
         'usage.hourUnit': 'h',
         'usage.hourShort': 'h',
         'usage.minuteUnit': 'm',
@@ -92,7 +94,23 @@ window.__ModuleLoader__.load({
     }
 
     /**
-     * Spoken phrasing for the tooltip: `距刷新 2小时 13分`.
+     * Day, hour, minute and second parts of a remaining duration.
+     * @param total - seconds left; must be greater than zero.
+     * @returns the parts, each non-negative.
+     */
+    function splitRemaining(total) {
+      const minutes = Math.floor(total / 60);
+      const hours = Math.floor(minutes / 60);
+      return {
+        days: Math.floor(hours / 24),
+        hours: hours % 24,
+        minutes: minutes % 60,
+        seconds: total % 60,
+      };
+    }
+
+    /**
+     * Spoken phrasing for the tooltip: `距月度刷新 21天 6小时`, `距月度刷新 2小时 13分`.
      * @param iso - upstream `resetsAt`.
      * @param t - translate function.
      * @param now - current epoch milliseconds.
@@ -102,17 +120,21 @@ window.__ModuleLoader__.load({
       const total = remainingSeconds(iso, now);
       if (total === null) return '';
       if (total <= 0) return t('usage.refreshing');
-      const prefix = t('usage.refreshIn');
+      const prefix = t('usage.countdownPrefix');
       if (total < 60) return `${prefix} ${total}${t('usage.secondUnit')}`;
-      const minutes = Math.floor(total / 60);
-      const hours = Math.floor(minutes / 60);
-      const rest = minutes % 60;
-      if (hours === 0) return `${prefix} ${rest}${t('usage.minuteUnit')}`;
-      return `${prefix} ${hours}${t('usage.hourUnit')} ${String(rest).padStart(2, '0')}${t('usage.minuteUnit')}`;
+      const parts = splitRemaining(total);
+      const pad = (value) => String(value).padStart(2, '0');
+      if (parts.days > 0) {
+        return parts.hours > 0
+          ? `${prefix} ${parts.days}${t('usage.dayUnit')} ${parts.hours}${t('usage.hourUnit')}`
+          : `${prefix} ${parts.days}${t('usage.dayUnit')}`;
+      }
+      if (parts.hours === 0) return `${prefix} ${parts.minutes}${t('usage.minuteUnit')}`;
+      return `${prefix} ${parts.hours}${t('usage.hourUnit')} ${pad(parts.minutes)}${t('usage.minuteUnit')}`;
     }
 
     /**
-     * Compact phrasing for the row's trailing slot: `2h13m`, `45m`, `42s`.
+     * Compact phrasing for the title slot: `5d6h`, `6h12m`, `45m`, `42s`.
      * @param iso - upstream `resetsAt`.
      * @param t - translate function.
      * @param now - current epoch milliseconds.
@@ -123,15 +145,14 @@ window.__ModuleLoader__.load({
       if (total === null) return '';
       if (total <= 0) return t('usage.refreshing');
       if (total < 60) return `${total}${t('usage.secondUnit')}`;
-      const minutes = Math.floor(total / 60);
-      const hours = Math.floor(minutes / 60);
-      const rest = minutes % 60;
-      if (hours === 0) return `${rest}${t('usage.minuteUnit')}`;
-      return `${hours}${t('usage.hourShort')}${String(rest).padStart(2, '0')}${t('usage.minuteUnit')}`;
+      const parts = splitRemaining(total);
+      if (parts.days > 0) return `${parts.days}${t('usage.dayUnit')}${parts.hours}${t('usage.hourShort')}`;
+      if (parts.hours === 0) return `${parts.minutes}${t('usage.minuteUnit')}`;
+      return `${parts.hours}${t('usage.hourShort')}${String(parts.minutes).padStart(2, '0')}${t('usage.minuteUnit')}`;
     }
 
     /**
-     * Live countdown for the short window's reset, shown after the card title so
+     * Live countdown for the monthly window's reset, shown after the card title so
      * the reset does not have to be hovered out of a tooltip. Ticking is local to
      * this node, so the rest of the card does not re-render every second.
      * @param props - translate and the upstream `resetsAt`.
@@ -341,7 +362,7 @@ window.__ModuleLoader__.load({
       if (windows.length === 0) return null;
 
       const limited = windows.some((window) => window.limited === true);
-      const rolling = windows.find((window) => window.key === 'rolling');
+      const monthly = windows.find((window) => window.key === 'monthly');
 
       return h(
         'div',
@@ -359,7 +380,7 @@ window.__ModuleLoader__.load({
               },
             }),
             'OpenCode',
-            rolling ? h(ResetCountdown, { t, resetAt: rolling.resetsAt }) : null,
+            monthly ? h(ResetCountdown, { t, resetAt: monthly.resetsAt }) : null,
           ),
           h(RefreshButton, { t, onClick: () => setNonce((value) => value + 1) }),
         ),

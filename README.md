@@ -1,13 +1,13 @@
 # dsh-opencode-usage-sidebar
 
-An OpenCode Go subscription usage card in the [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) sidebar footer: the 5-hour, weekly and monthly windows at a glance, with a live countdown to the 5-hour reset.
+An OpenCode Go subscription usage card in the [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) sidebar footer: the 5-hour, weekly and monthly windows at a glance, with a live countdown to the monthly reset.
 
-把 OpenCode 订阅的 **5 小时 / 本周 / 本月** 用量显示在 DSH 侧栏底部，并在卡片标题旁实时倒计时到 5 小时窗口重置。
+把 OpenCode 订阅的 **5 小时 / 本周 / 本月** 用量显示在 DSH 侧栏底部，并在卡片标题旁实时倒计时到本月窗口重置。
 
 ## What it shows
 
 - Three rows — `5 小时`, `本周`, `本月` — each with the used percentage and a bar that turns warm at 70% and red at 90%.
-- A live countdown after the `OpenCode` title (`1时58分`, `42分`, `42秒`), ticking every second and switching to `即将刷新` when the 5-hour window resets.
+- A live countdown after the `OpenCode` title to the monthly reset (`5天6时`, `6时12分`, `42秒`), ticking every second and switching to `即将刷新` when the month rolls over.
 - Refreshes on the plugin's poll interval, after every assistant turn, and when the window regains focus.
 
 ## Install

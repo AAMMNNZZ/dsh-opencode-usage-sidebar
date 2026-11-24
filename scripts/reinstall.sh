@@ -11,10 +11,12 @@ PROFILE="/c/Users/AMNZ/.dsh/profiles/desktop"
 INSTALLED="$PROFILE/node_modules/dsh-opencode-usage-sidebar"
 BACKUP="$WS/.tmp/profile-backup"
 
-TGZ=$(ls -t "$WS"/dsh-opencode-usage-sidebar-*.tgz 2>/dev/null | head -1)
-[ -z "$TGZ" ] && { echo "no tarball found; run pnpm pack first"; exit 1; }
-NAME=$(basename "$TGZ")
 VERSION=$(grep -m1 '"version"' "$WS/package.json" | sed 's/.*"\([^"]*\)".*/\1/')
+# Pick the tarball that matches package.json rather than the newest mtime: an
+# older tgz touched by a stray build must never win over the current version.
+TGZ="$WS/dsh-opencode-usage-sidebar-$VERSION.tgz"
+[ -f "$TGZ" ] || { echo "no tarball for $VERSION; run pnpm pack first"; ls -1 "$WS"/dsh-opencode-usage-sidebar-*.tgz 2>/dev/null; exit 1; }
+NAME=$(basename "$TGZ")
 echo "installing $NAME (package.json version $VERSION)"
 
 mkdir -p "$BACKUP"
